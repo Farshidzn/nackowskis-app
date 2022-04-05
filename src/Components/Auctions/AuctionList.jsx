@@ -14,7 +14,7 @@ const AuctionList = () => {
         getAuctions();
     }, []);
   return (
-    <Container><h1>Home view</h1>
+    <Container><h1>Auctions</h1>
     <ListGroup>
         {auctions.length > 0 ? auctions.map(a => (
             <AuctionItem key={uuidv4()} auction={a}/>

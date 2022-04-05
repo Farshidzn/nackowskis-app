@@ -15,7 +15,7 @@ const AuctionItem = ({auction}) => {
       Slut Datum: {new Date(auction.SlutDatum).toISOString().split('T')[0]}
       </Card.Text>
     </Card.Body>
-    {/* <Link className='my-1 mx-2'>Details</Link> */}
+    <Link to={`/auction/${auction.AuktionID}`} className='my-1 mx-2 btn btn-primary'>Details</Link>
   </Card></ListGroup.Item>
   )
 }
