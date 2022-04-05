@@ -6,7 +6,7 @@ import {
 } from 'react-bootstrap';
 import { ImFacebook2, FaInstagramSquare } from "react-icons/gr";
 
-export default function App() {
+const Footer = () => {
   return (
     <footer className='text-center text-white' style={{ backgroundColor: '#f1f1f1' }}>
       <Container className='pt-4'>
@@ -40,3 +40,4 @@ export default function App() {
     </footer>
   );
 }
+export default Footer;
