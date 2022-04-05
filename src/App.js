@@ -1,11 +1,10 @@
-import logo from './logo.svg';
 import './App.css';
-
+import HomeView from './Views/HomeView';
 function App() {
   return (
-    <div className="App">
-      
-    </div>
+    <>
+      <HomeView/>
+    </>
   );
 }
 
