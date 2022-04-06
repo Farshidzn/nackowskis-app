@@ -5,7 +5,7 @@ import { Row, Col } from "react-bootstrap";
 import { v4 as uuidv4 } from "uuid";
 import AuctionContext from "../../contexts/AuctionContext";
 const AuctionList = () => {
-  //const [auctions, setAuctions] = useState([]);
+ // const [auctions, setAuctions] = useState([]);
 
   const { auctions } = useContext(AuctionContext);
   /*useEffect(() => {

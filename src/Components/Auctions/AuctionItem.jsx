@@ -18,6 +18,21 @@ const AuctionItem = ({ auction }) => {
     };
     getAuctions();
   }, [auction.AuktionID]);
+
+  const dateConverter = (d) => {
+    return new Date(d);
+  };
+
+  const statusChecker = (endDate) => {
+    let currentDate = new Date();
+
+    if (currentDate > dateConverter(endDate)) {
+      return "Avslutad";
+    } else {
+      return "Slut Datum: " + new Date(endDate).toISOString().split("T")[0];
+    }
+  };
+
   return (
     <Card className="my-2">
       <Card.Body>
@@ -33,6 +48,7 @@ const AuctionItem = ({ auction }) => {
         <Card.Text>
           Slut Datum: {new Date(auction.SlutDatum).toISOString().split("T")[0]}
         </Card.Text>
+        <Card.Text>{statusChecker(auction.SlutDatum)}</Card.Text>
       </Card.Body>
       <Link
         to={`/auction/${auction.AuktionID}`}
