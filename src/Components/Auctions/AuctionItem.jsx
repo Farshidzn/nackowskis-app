@@ -45,9 +45,6 @@ const AuctionItem = ({ auction }) => {
             <span>Inga bud lagda</span>
           )}
         </Card.Text>
-        <Card.Text>
-          Slut Datum: {new Date(auction.SlutDatum).toISOString().split("T")[0]}
-        </Card.Text>
         <Card.Text>{statusChecker(auction.SlutDatum)}</Card.Text>
       </Card.Body>
       <Link
