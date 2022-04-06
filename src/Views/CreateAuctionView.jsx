@@ -38,7 +38,7 @@ const CreateAuctionsView = () => {
   return (
     //<div><h1>Create auction view</h1></div>
     <>
-      <form onSubmit={onSubmitHandler}>
+      {/* <form onSubmit={onSubmitHandler}>
         <div className="newAuction">
           <h3>Add a new auction</h3>
           <div className="seller">
@@ -90,25 +90,77 @@ const CreateAuctionsView = () => {
             </button>
           </div>
         </div>
-      </form>
-      <Form>
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control type="email" placeholder="Enter email" />
-          <Form.Text className="text-muted">
-            We'll never share your email with anyone else.
-          </Form.Text>
+      </form> */}
+      <Form onSubmit={onSubmitHandler}>
+        <Form.Group className="mb-3" controlId="SkapadAv">
+          <Form.Label htmlFor="SkapadAv">Seller</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Enter name"
+            id="SkapadAv"
+            onChange={onchange}
+          />
         </Form.Group>
 
-        <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control type="password" placeholder="Password" />
+        <Form.Group className="mb-3" controlId="Titel">
+          <Form.Label htmlFor="Title">Titel</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Title"
+            id="Titel"
+            onChange={onchange}
+          />
         </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicCheckbox">
-          <Form.Check type="checkbox" label="Check me out" />
+
+        <Form.Group className="mb-3" controlId="Beskrivning">
+          <Form.Label htmlFor="Beskrivning">Description</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Description"
+            id="Beskrivning"
+            onChange={onchange}
+          />
         </Form.Group>
-        <Button variant="primary" type="submit">
-          Submit
+
+        <Form.Group className="mb-3" controlId="Utropspris">
+          <Form.Label html for="Utropspris">Starting price:</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Price"
+            id="Utropspris"
+            onChange={onPriceChange}
+          />
+        </Form.Group>
+
+        <div className="col-md-4">
+          <Form.Group controlId="dob">
+            <Form.Label html for="StartDatum">start date</Form.Label>
+            <Form.Control
+              type="date"
+              name="dob"
+              placeholder="start date"
+              id="StartDatum"
+              onChange={onDateChanged}
+            />
+          </Form.Group>
+        </div>
+
+        <div className="col-md-4">
+          <Form.Group controlId="dob">
+            <Form.Label html for="SlutDatum">End date</Form.Label>
+            <Form.Control
+              type="date"
+              name="dob"
+              placeholder="start date"
+              id="SlutDatum"
+              onChange={onDateChanged}
+            />
+          </Form.Group>
+        </div>
+        <br />
+        <br />
+        <Button className="createAuctionbtn" variant="primary" type="submit">
+          Add
         </Button>
       </Form>
     </>
