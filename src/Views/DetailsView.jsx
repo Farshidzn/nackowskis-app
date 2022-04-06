@@ -1,30 +1,42 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import { Row, Card, Col, Table } from "react-bootstrap";
+import { Link, useParams, useNavigate } from "react-router-dom";
+import { Row, Card, Col, Table, Button } from "react-bootstrap";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import useTable from "../Hooks/useTable";
 import TableFooter from "../Components/Layout/TableFooter";
 const DetailsView = () => {
+  const navigate = useNavigate();
   const [page, setPage] = useState(1);
-
+  const [isActive, setIsActive] = useState(false);
+  const [highestBidder, setHighestBidder] = useState({});
   const params = useParams();
   const [auction, setAuction] = useState({});
   const [bids, setBids] = useState([]);
   const [loading, setLoading] = useState(true);
   const { slice, range } = useTable(bids, page, 4);
+  const auctionIsActive = (auction) => {
+    return new Date(auction.SlutDatum) > new Date();
+  };
   useEffect(() => {
     const getAuction = async () => {
       const response = await axios.get(
         `http://nackowskis.azurewebsites.net/api/Auktion/2460/${params.id}`
       );
       setAuction(response.data);
+      setIsActive(auctionIsActive(response.data));
     };
     const getBids = async () => {
       const response = await axios.get(
         `http://nackowskis.azurewebsites.net/api/bud/2460/${params.id}`
       );
       setBids(response.data);
+      if (response.data.length > 0) {
+        const highestBid = response.data.reduce(function (prev, current) {
+          return prev.Summa > current.Summa ? prev : current;
+        });
+        setHighestBidder(highestBid);
+      }
     };
     getAuction();
     getBids();
@@ -67,7 +79,7 @@ const DetailsView = () => {
       "Fredag",
       "Lördag",
     ];
-    const newDate = new Date();
+    const newDate = new Date(d);
     let day = days[newDate.getDay()];
     let date = newDate.getDate();
     let month = months[newDate.getMonth()];
@@ -75,10 +87,16 @@ const DetailsView = () => {
     let time = msToTime(newDate.getTime());
     return `${day} ${date} ${month} ${year} ${time}`;
   };
+  const handleDelete = async () => {
+    await axios.delete(
+      `http://nackowskis.azurewebsites.net/api/Auktion/2460/${params.id}`
+    );
 
+    navigate("/");
+  };
   return (
     <>
-      <Link to="/" className="btn btn-primary">
+      <Link to="/" className="btn btn-primary my-2">
         Back
       </Link>
       {!loading ? (
@@ -101,28 +119,53 @@ const DetailsView = () => {
           </Col>
           <Col md={6}>
             <Row md={10} className="h80">
-              <Table striped bordered hover>
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Budgivare</th>
-                    <th>Bud</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {slice.length > 0 ? (
-                    slice.map((a, i) => (
+              {slice.length > 0 ? (
+                <Table striped bordered hover>
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Budgivare</th>
+                      <th>Bud</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {isActive ? (
+                      slice.map((a, i) => (
+                        <tr key={uuidv4()}>
+                          <td>{i + 1}</td>
+                          <td>{a.Budgivare}</td>
+                          <td>{a.Summa}</td>
+                        </tr>
+                      ))
+                    ) : (
                       <tr key={uuidv4()}>
-                        <td>{i + 1}</td>
-                        <td>{a.Budgivare}</td>
-                        <td>{a.Summa}</td>
+                        <td>{1}</td>
+                        <td>{highestBidder.Budgivare}</td>
+                        <td>{highestBidder.Summa}</td>
                       </tr>
-                    ))
-                  ) : (
-                    <h2>No Auctions found</h2>
+                    )}
+                  </tbody>
+                </Table>
+              ) : (
+                <>
+                  <h2>No Bids Found</h2>
+                  {isActive && (
+                    <Link
+                      to={`/auction/update/${params.id}`}
+                      className="btn btn-primary"
+                    >
+                      Uppdatera
+                    </Link>
                   )}
-                </tbody>
-              </Table>
+                  <Button
+                    onClick={handleDelete}
+                    variant="danger"
+                    className="my-2"
+                  >
+                    Ta bort
+                  </Button>
+                </>
+              )}
             </Row>
             <Row md={2} className="h20">
               <TableFooter

@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import AuctionItem from "./AuctionItem";
-import { ListGroup, Row, Col } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import { v4 as uuidv4 } from "uuid";
 import AuctionContext from "../../contexts/AuctionContext";
 const AuctionList = () => {
-  //const [auctions, setAuctions] = useState([]);
+ // const [auctions, setAuctions] = useState([]);
 
-  const{auctions} = useContext(AuctionContext);
-
+  const { auctions } = useContext(AuctionContext);
   /*useEffect(() => {
     const getAuctions = async () => {
       const response = await axios.get(
