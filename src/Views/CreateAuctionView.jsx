@@ -92,7 +92,7 @@ const CreateAuctionsView = () => {
         </div>
       </form> */}
       <Form onSubmit={onSubmitHandler}>
-        <Form.Group className="mb-3" controlId="SkapadAv">
+        <Form.Group className="mb-3">
           <Form.Label htmlFor="SkapadAv">Seller</Form.Label>
           <Form.Control
             type="text"
@@ -102,7 +102,7 @@ const CreateAuctionsView = () => {
           />
         </Form.Group>
 
-        <Form.Group className="mb-3" controlId="Titel">
+        <Form.Group className="mb-3">
           <Form.Label htmlFor="Title">Titel</Form.Label>
           <Form.Control
             type="text"
@@ -112,7 +112,7 @@ const CreateAuctionsView = () => {
           />
         </Form.Group>
 
-        <Form.Group className="mb-3" controlId="Beskrivning">
+        <Form.Group className="mb-3">
           <Form.Label htmlFor="Beskrivning">Description</Form.Label>
           <Form.Control
             type="text"
@@ -122,8 +122,8 @@ const CreateAuctionsView = () => {
           />
         </Form.Group>
 
-        <Form.Group className="mb-3" controlId="Utropspris">
-          <Form.Label html for="Utropspris">Starting price:</Form.Label>
+        <Form.Group className="mb-3">
+          <Form.Label htmlFor="Utropspris">Starting price:</Form.Label>
           <Form.Control
             type="text"
             placeholder="Price"
@@ -133,8 +133,8 @@ const CreateAuctionsView = () => {
         </Form.Group>
 
         <div className="col-md-4">
-          <Form.Group controlId="dob">
-            <Form.Label html for="StartDatum">start date</Form.Label>
+          <Form.Group>
+            <Form.Label htmlFor="StartDatum">start date</Form.Label>
             <Form.Control
               type="date"
               name="dob"
@@ -146,8 +146,8 @@ const CreateAuctionsView = () => {
         </div>
 
         <div className="col-md-4">
-          <Form.Group controlId="dob">
-            <Form.Label html for="SlutDatum">End date</Form.Label>
+          <Form.Group>
+            <Form.Label htmlFor="SlutDatum">End date</Form.Label>
             <Form.Control
               type="date"
               name="dob"
