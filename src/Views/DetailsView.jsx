@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { Row, Card, Col, Table, Button } from "react-bootstrap";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import useTable from "../Hooks/useTable";
 import TableFooter from "../Components/Layout/TableFooter";
 const DetailsView = () => {
+  const navigate = useNavigate();
   const [page, setPage] = useState(1);
   const [isActive, setIsActive] = useState(false);
   const [highestBidder, setHighestBidder] = useState({});
@@ -86,7 +87,13 @@ const DetailsView = () => {
     let time = msToTime(newDate.getTime());
     return `${day} ${date} ${month} ${year} ${time}`;
   };
-  const handleDelete = () => {};
+  const handleDelete = async () => {
+    await axios.delete(
+      `http://nackowskis.azurewebsites.net/api/Auktion/2460/${params.id}`
+    );
+
+    navigate("/");
+  };
   return (
     <>
       <Link to="/" className="btn btn-primary my-2">
@@ -143,7 +150,10 @@ const DetailsView = () => {
                 <>
                   <h2>No Bids Found</h2>
                   {isActive && (
-                    <Link to="/" className="btn btn-primary">
+                    <Link
+                      to={`/auction/update/${params.id}`}
+                      className="btn btn-primary"
+                    >
                       Uppdatera
                     </Link>
                   )}
