@@ -20,7 +20,7 @@ const AuctionList = () => {
       <Row>
         {auctions.length > 0 ? (
           auctions.map((a) => (
-            <Col key={uuidv4()}>
+            <Col sm={8} md={6} lg={4} key={uuidv4()}>
               <AuctionItem auction={a} />
             </Col>
           ))
