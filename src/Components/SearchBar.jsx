@@ -1,8 +1,12 @@
-import {useRef, useState} from 'react'
+import {useRef, useState, useContext} from 'react'
 import { searchFilter } from '../contexts/AuctionAction';
+import AuctionContext from '../contexts/AuctionContext';
+
 
 
 const SearchBarr = () => {
+
+    const{dispatch} = useContext(AuctionContext);
 
     let searchParam = useRef("");
     let statusParam = useRef("");
@@ -11,11 +15,10 @@ const SearchBarr = () => {
     const [resultList, setResultList] = useState([]);
     const [status, setStatus] = useState();
 
-    const handleOnClick = () =>{
+    const handleOnClick = async () =>{
         let condition = searchParam.current.value;
-        console.log(status)
-        setResultList(searchFilter(condition, status));
-        console.log(resultList);     // Ta bort sen
+        const response = await searchFilter(condition, status)
+        dispatch({type: "filterAuctions", payload: response})
     }
 
     const handleOnChange = (e) => {

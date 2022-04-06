@@ -9,7 +9,6 @@ const dateConverter = (d) => {
 
 export const searchFilter = async (condition, status) => {
 
-    console.log(status)
     const response = await api.get("Auktion/2460");
     const {data} = response;
     const currentDate = new Date()
@@ -45,8 +44,6 @@ export const searchFilter = async (condition, status) => {
             }); break;
     }
 
-    // Uppdatera state på auktionslista
-
-    console.log(filteredList)
+    return filteredList;
 
 }

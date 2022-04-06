@@ -5,9 +5,10 @@ import { Container } from "react-bootstrap";
 import Header from './Components/Layout/Header'
 import Footer from './Components/Layout/Footer';
 import DetailsView from './Views/DetailsView';
+import {AuctionProvider} from './contexts/AuctionContext'
 function App() {
   return (
-    <>
+    <AuctionProvider>
     <Router>
     <Header/>
     <main>
@@ -20,7 +21,7 @@ function App() {
       </main>
       <Footer/> 
     </Router>
-    </>
+    </AuctionProvider>
   );
 }
 
