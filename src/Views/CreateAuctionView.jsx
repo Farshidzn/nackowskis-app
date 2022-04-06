@@ -1,50 +1,55 @@
-import React,{ useContext, useEffect, useState} from 'react'
-import axios from 'axios'
-
+import React, { useContext, useEffect, useState } from "react";
+import axios from "axios";
 
 const CreateAuctionsView = () => {
-  
-  const [formData, setFormData] = useState({SkapadAv: "", Title: "", Beskrivning: "", StartDatum:"", SlutDatum: "", Utropspris: 0,  "Gruppkod": 2460});
+  const [formData, setFormData] = useState({
+    Titel: "Från browser",
+    SkapadAv: "Mattias Åkerström",
+    Beskrivning: "Begangnad Iphone",
+    StartDatum: "2022-04-04T12:00:00",
+    SlutDatum: "2022-05-02T15:00:00",
+    Gruppkod: 2460,
+    Utropspris: 200,
+  });
+  const api = axios.create({
+    baseURL: "http://nackowskis.azurewebsites.net/api/",
+  });
+  const onchange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
 
-        const onchange = (e) => {setFormData({...formData, [e.target.id]:e.target.value})} 
+  const onSubmitHandler = async (e) => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
 
-        
-     const onSubmitHandler = async(e) => {
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
-
-       e.preventDefault()
-       console.log(formData)
-     
-      const response = await axios.post("http://nackowskis.azurewebsites.net/api/Auktion/2460",formData
-      )
-      
-     }
+    e.preventDefault();
+    console.log(formData);
+    const response = await api.post("Auktion/2460", formData);
+  };
 
   return (
     //<div><h1>Create auction view</h1></div>
     <form onSubmit={onSubmitHandler}>
-    <div className="newAuction">
-
+      <div className="newAuction">
         <h3>Add a new auction</h3>
         <div className="seller">
-            <label html for="SkapadAv">Sold by:</label><br />
-            <input type="text" id='SkapadAv' onChange={ onchange
-            } />
+          <label htmlFor="SkapadAv">Sold by:</label>
+          <br />
+          <input type="text" id="SkapadAv" onChange={onchange} />
         </div>
         <div className="title">
-            <label html for="Title">Titel:</label><br />
-            <input type="text" id='Title' onChange={ onchange
-            } />
+          <label htmlFor="Title">Titel:</label>
+          <br />
+          <input type="text" id="Titel" onChange={onchange} />
         </div>
         <br />
         <div className="description">
-            <label html for="Beskrivning">Description:</label><br />
-            <input type="text" id='Beskrivning' onChange={ onchange
-            } />
+          <label htmlFor="Beskrivning">Description:</label>
+          <br />
+          <input type="text" id="Beskrivning" onChange={onchange} />
         </div>
         <br />
         {/* <div className="startDate">
@@ -68,11 +73,13 @@ const CreateAuctionsView = () => {
         <br />
         <br />
         <div className="createAuction">
-            <button className="createAuctionbtn" type="submit" >Add</button>
+          <button className="createAuctionbtn" type="submit">
+            Add
+          </button>
         </div>
-    </div>
+      </div>
     </form>
-  )
-}
+  );
+};
 
-export default CreateAuctionsView
+export default CreateAuctionsView;
