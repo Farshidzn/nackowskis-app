@@ -3,7 +3,7 @@ import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 const AuctionItem = ({ auction }) => {
   return (
-    <Card>
+    <Card className="my-2">
       <Card.Body>
         <Card.Title>{auction.Titel}</Card.Title>
         <Card.Text>{auction.Beskrivning}</Card.Text>
