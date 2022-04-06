@@ -29,3 +29,11 @@ margin-right: 10px;
  visibility: hidden;
 
 }
+.h80{
+    height:80%;
+    min-height:80%;
+}
+.h20{
+    min-height:20%;
+    max-height:20%;
+}
