@@ -5,16 +5,18 @@ import { Container } from "react-bootstrap";
 import Header from './Components/Layout/Header'
 import Footer from './Components/Layout/Footer';
 import DetailsView from './Views/DetailsView';
+import CreateAuctionsView from './Views/CreateAuctionView'
 function App() {
   return (
     <>
     <Router>
     <Header/>
-    <main>
+    <main>     
     <Container>
       <Routes>       
         <Route exact path="/" element={<HomeView/>}/>
-        <Route exact path="/auction/:id" element={<DetailsView/>}/>            
+        <Route exact path="/auction/:id" element={<DetailsView/>}/>   
+        <Route exact path='/CreateAuctionView' element={<CreateAuctionsView/>} />       
       </Routes>
       </Container>
       </main>
