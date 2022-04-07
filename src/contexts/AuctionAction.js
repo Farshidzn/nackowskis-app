@@ -105,6 +105,7 @@ const sortBidBySum = (bids) => {
 }
 export const createBid = async (id,formData) => {
       const response = await api.post(`bud/2460/${id}`,formData);
+      
       console.log(response.data)
       return response;
 }
