@@ -7,12 +7,17 @@ const dateConverter = (d) => {
     return new Date(d);
 }
 
-
-
 export const searchFilter = async (condition, status) => {
-
+    
+    condition = condition.toLowerCase();
+    console.log(condition);
     const response = await api.get("Auktion/2460");
     const {data} = response;
+
+    data.forEach(auctionItem => {
+       auctionItem.Titel = auctionItem.Titel.toLowerCase();
+    })
+
     let currentDate = new Date();
     let filteredList = []
 
