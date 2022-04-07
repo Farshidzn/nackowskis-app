@@ -14,7 +14,7 @@ const AuctionReducer = (state, action) => {
     case "delete_auction":
       return {
         ...state,
-        auctions: state.auctions.filter((x) => x.AuktionID !== action.payload),
+        auctions: state.auctions.filter((auction) => auction.AuktionID !== action.payload),
       };
       // BID ACTIONS
     case "create_bid":
