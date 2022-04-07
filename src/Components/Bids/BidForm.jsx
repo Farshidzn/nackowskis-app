@@ -1,29 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { Form, Button, Col, Row } from "react-bootstrap";
-
+import AuctionContext from "../../contexts/AuctionContext";
+import { createBid } from "../../contexts/AuctionAction";
 const BidForm = ({ id, startPrice }) => {
+  const { bids,dispatch } = useContext(AuctionContext);
   const [formData, setFormData] = useState({
     Summa: 0,
     Budgivare: "",
   });
-  const [bids, setBids] = useState([]);
-  const [highestBid, setHighestBid] = useState(0);
+  const [highestBidder, setHighestBidder] = useState(0);
+  const [minBid, setMinBid] = useState(0);
   useEffect(() => {
-    const getBids = async () => {
-      const response = await axios.get(
-        `http://nackowskis.azurewebsites.net/api/bud/2460/${id}`
-      );
-      setBids(response.data);
-      if (response.data.length > 0) {
-        const highestBidder = response.data.reduce(function (prev, current) {
-          return prev.Summa > current.Summa ? prev.Summa : current.Summa;
-        });
-        setHighestBid(highestBidder);
-      }
-    };
-    getBids();
-  }, []);
+    if (bids.length > 0) {
+      const highestBidder = bids.reduce(function (prev, current) {
+        return prev.Summa > current.Summa ? prev : current;
+      });
+      setHighestBidder(highestBidder);
+    }
+    setMinBid(
+      highestBidder.Summa > startPrice
+        ? highestBidder.Summa + 1
+        : startPrice + 1
+    );
+  }, [bids]);
   const { Summa, Budgivare } = formData;
   const handleOnChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -34,12 +34,13 @@ const BidForm = ({ id, startPrice }) => {
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     const newBid = { ...formData, AuktionID: id };
-    const response = await axios.post(
-      `http://nackowskis.azurewebsites.net/api/bud/2460/${id}`,
-      newBid
-    );
+    const response = await createBid(id, newBid);
+    dispatch({
+        type:"create_bid",
+        payload:response.data
+    })
     resetState();
-    console.log(newBid);
+    console.log(response.data);
   };
   return (
     <Form className="my-2" onSubmit={handleOnSubmit}>
@@ -53,8 +54,9 @@ const BidForm = ({ id, startPrice }) => {
             type="number"
             placeholder="Summa"
             onChange={handleOnChange}
-            min={highestBid > startPrice ? highestBid + 1 : startPrice + 1}
+            min={minBid}
             value={Summa}
+            required
           />
         </Col>
       </Form.Group>
@@ -70,6 +72,7 @@ const BidForm = ({ id, startPrice }) => {
             onChange={handleOnChange}
             placeholder="Budgivare"
             value={Budgivare}
+            required
           />
         </Col>
       </Form.Group>

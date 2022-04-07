@@ -2,21 +2,20 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import {getBidForAuction} from "../../contexts/AuctionAction";
 const AuctionItem = ({ auction }) => {
   const [highestBid, setHighestBid] = useState(0);
   useEffect(() => {
-    const getAuctions = async () => {
-      const response = await axios.get(
-        `http://nackowskis.azurewebsites.net/api/bud/2460/${auction.AuktionID}`
-      );
-      if (response.data.length > 0) {
-        const highestBid = response.data.reduce(function (prev, current) {
+    const getBids = async () => {
+      const response = await getBidForAuction(auction.AuktionID);
+      if (response.length > 0) {
+        const highestBid = response.reduce(function (prev, current) {
           return prev.Summa > current.Summa ? prev : current;
         });
         setHighestBid(highestBid.Summa);
       }
     };
-    getAuctions();
+    getBids();
   }, [auction.AuktionID]);
 
   const dateConverter = (d) => {

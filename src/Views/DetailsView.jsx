@@ -1,19 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { Row, Card, Col, Table, Button } from "react-bootstrap";
-import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import useTable from "../Hooks/useTable";
 import TableFooter from "../Components/Layout/TableFooter";
 import BidForm from "../Components/Bids/BidForm";
+import AuctionContext from "../contexts/AuctionContext";
+import {deletAuction, getAuctionById, getBidForAuction} from "../contexts/AuctionAction"
+import {getHighestBidder} from "../utils/helperMethods"
 const DetailsView = () => {
+  const {bids,dispatch} = useContext(AuctionContext)
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
   const [isActive, setIsActive] = useState(false);
   const [highestBidder, setHighestBidder] = useState({});
   const params = useParams();
   const [auction, setAuction] = useState({});
-  const [bids, setBids] = useState([]);
   const [loading, setLoading] = useState(true);
   const { slice, range } = useTable(bids, page, 4);
   const auctionIsActive = (auction) => {
@@ -21,19 +23,19 @@ const DetailsView = () => {
   };
   useEffect(() => {
     const getAuction = async () => {
-      const response = await axios.get(
-        `http://nackowskis.azurewebsites.net/api/Auktion/2460/${params.id}`
-      );
-      setAuction(response.data);
-      setIsActive(auctionIsActive(response.data));
+      const response = await getAuctionById(params.id);
+      setAuction(response);
+      setIsActive(auctionIsActive(response));
     };
     const getBids = async () => {
-      const response = await axios.get(
-        `http://nackowskis.azurewebsites.net/api/bud/2460/${params.id}`
-      );
-      setBids(response.data);
-      if (response.data.length > 0) {
-        const highestBid = response.data.reduce(function (prev, current) {
+      const response = await getBidForAuction(params.id);
+      dispatch({
+        type:"get_all_bids",
+        payload:response
+      })
+      //setBids(response);
+      if (response.length > 0) {
+        const highestBid = response.reduce(function (prev, current) {
           return prev.Summa > current.Summa ? prev : current;
         });
         setHighestBidder(highestBid);
@@ -42,7 +44,7 @@ const DetailsView = () => {
     getAuction();
     getBids();
     setLoading(false);
-  }, [params.id]);
+  }, [params.id, bids]);
   function msToTime(duration) {
     duration += 7200000;
     let milliseconds = Math.floor((duration % 1000) / 100),
@@ -89,10 +91,12 @@ const DetailsView = () => {
     return `${day} ${date} ${month} ${year} ${time}`;
   };
   const handleDelete = async () => {
-    await axios.delete(
-      `http://nackowskis.azurewebsites.net/api/Auktion/2460/${params.id}`
-    );
 
+    await deletAuction(params.id);
+    dispatch({
+      type:"delete_auction",
+      payload:params.id
+    })
     navigate("/");
   };
   return (
