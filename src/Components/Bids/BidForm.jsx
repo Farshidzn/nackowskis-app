@@ -6,6 +6,7 @@ import { createBid } from "../../contexts/AuctionAction";
 const BidForm = ({ id, startPrice }) => {
   const { bids, dispatch } = useContext(AuctionContext);
   const [postComplete, setPostComplete] = useState(false);
+  const [bidStatus, setBidStatus] = useState(true);
   const [formData, setFormData] = useState({
     Summa: 0,
     Budgivare: "",
@@ -40,6 +41,7 @@ const BidForm = ({ id, startPrice }) => {
   };
   const handleOnSubmit = async (e) => {
     e.preventDefault();
+    setBidStatus(false);
     const newBid = { ...formData, AuktionID: id };
     const response = await createBid(id, newBid);
 
@@ -48,13 +50,14 @@ const BidForm = ({ id, startPrice }) => {
       payload: response.data,
     });
     resetState();
+    setBidStatus(true);
     setPostComplete(true);
     console.log(response.data);
   };
   return (
     <>
       {postComplete && (
-        <Toast
+        <Toast className = "bid-toast"
           onClose={() => setPostComplete(false)}
           show={postComplete}
           delay={2000}
@@ -100,7 +103,7 @@ const BidForm = ({ id, startPrice }) => {
         </Form.Group>
         <Form.Group as={Row} className="mb-3">
           <Col sm={{ span: 10, offset: 2 }}>
-            <Button type="submit">Lägg bud</Button>
+            <Button type="submit" disabled={bidStatus.value}>Lägg bud</Button>
           </Col>
         </Form.Group>
       </Form>
