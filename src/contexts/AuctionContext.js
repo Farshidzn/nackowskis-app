@@ -10,6 +10,7 @@ const AuctionContext = createContext();
     const initialState = {
 
         auctions: [],
+        bids:[]
     }
 
     const [state, dispatch] = useReducer(AuctionReducer, initialState);

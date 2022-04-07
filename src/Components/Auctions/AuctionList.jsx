@@ -1,22 +1,20 @@
-import React, { useState, useEffect, useContext } from "react";
-import axios from "axios";
+import React, { useEffect, useContext } from "react";
 import AuctionItem from "./AuctionItem";
 import { Row, Col } from "react-bootstrap";
 import { v4 as uuidv4 } from "uuid";
 import AuctionContext from "../../contexts/AuctionContext";
+import {getAllActiveAuctions} from "../../contexts/AuctionAction"
 const AuctionList = () => {
- // const [auctions, setAuctions] = useState([]);
-
-  const { auctions } = useContext(AuctionContext);
-  /*useEffect(() => {
-    const getAuctions = async () => {
-      const response = await axios.get(
-        "http://nackowskis.azurewebsites.net/api/Auktion/2460"
-      );
-      setAuctions(response.data);
-    };
-    getAuctions();
-  }, []);*/
+  const { auctions, dispatch } = useContext(AuctionContext);
+  useEffect(() => {
+    if(auctions.length < 1){
+        const getAuctions = async() => {
+            const response = await getAllActiveAuctions();
+            dispatch({type: "filterAuctions", payload: response})
+        }
+        getAuctions();
+    }
+  }, [auctions]);
   return (
     <>
       <h1>Auctions</h1>

@@ -33,6 +33,7 @@ const CreateAuctionsView = () => {
 
     console.log(formData);
     const response = await api.post("Auktion/2460", formData);
+    
   };
 
   return (
