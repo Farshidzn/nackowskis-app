@@ -12,10 +12,13 @@ const SearchBarr = () => {
 
     let searchParam = useRef("");
     let statusParam = useRef("");
-
-
-    const [resultList, setResultList] = useState([]);
     const [status, setStatus] = useState();
+
+    const SearchWithEnter = evt => {
+        if (evt.key === "Enter") {
+                handleOnClick();
+            };
+    }
 
     const handleOnClick = async () =>{
         let condition = searchParam.current.value;
@@ -28,7 +31,7 @@ const SearchBarr = () => {
     }
 
     return(<div className = "search-box">
-        <input type = 'text' placeholder = 'Sök på något!' ref ={searchParam} className="search-input"/>
+        <input type = 'text' placeholder = 'Sök på något!' ref ={searchParam} className="search-input" onKeyPress={SearchWithEnter}/>
         <Button onClick={handleOnClick} className="search-button">Sök</Button>
         <input type="radio" value="active" name="status" ref = {statusParam} onChange={handleOnChange} className = "radio-button-search"/> Pågående auktioner
         <input type="radio" value="closed" name="status" ref = {statusParam} onChange={handleOnChange} className = "radio-button-search"/> Avslutade auktioner
