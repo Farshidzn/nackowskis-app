@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  Container,
-  Col,
-  Row
-} from 'react-bootstrap';
+import { Container} from 'react-bootstrap';
 import { FaFacebookSquare, FaInstagramSquare } from "react-icons/fa";
 
 
@@ -12,11 +8,8 @@ const Footer = () => {
     <footer className='text-center text-dark'  style={{ backgroundColor: '#f1f1f1' }}>
       <Container className='pt-4'>
         <section className='mb-4'>
-        
-            <FaFacebookSquare className="footer-icons"/>
-        
-            <FaInstagramSquare className="footer-icons"/>
-
+            <a href="https://www.facebook.com/nackorad"><FaFacebookSquare className="footer-icons"/></a>
+            <a href="https://www.instagram.com/pawe_n/"><FaInstagramSquare className="footer-icons"/></a>
         </section>
       </Container>
 
