@@ -17,7 +17,7 @@ function App() {
       <Routes>       
         <Route exact path="/" element={<HomeView/>}/>
         <Route exact path="/auction/:id" element={<DetailsView/>}/>   
-        <Route exact path='/CreateAuctionView' element={<CreateAuctionsView/>} />       
+        <Route exact path='/CreateAuctionView' element={<CreateAuctionsView/>} />    
       </Routes>
       </Container>
       </main>

@@ -5,6 +5,7 @@ import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import useTable from "../Hooks/useTable";
 import TableFooter from "../Components/Layout/TableFooter";
+import BidForm from "../Components/Bids/BidForm";
 const DetailsView = () => {
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
@@ -100,83 +101,92 @@ const DetailsView = () => {
         Back
       </Link>
       {!loading ? (
-        <Row>
-          <Col md={6}>
-            <Card>
-              <Card.Body>
-                <Card.Title>{auction.Titel}</Card.Title>
-                <Card.Text>{auction.Beskrivning}</Card.Text>
-                <Card.Text>
-                  Start Datum: {dateBuilder(auction.StartDatum)}
-                </Card.Text>
-                <Card.Text>
-                  Slut Datum: {dateBuilder(auction.SlutDatum)}
-                </Card.Text>
-                <Card.Text>Utropspris: {auction.Utropspris} kr</Card.Text>
-                <Card.Text>Utropspris: {auction.SkapadAv}</Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col md={6}>
-            <Row md={10} className="h80">
-              {slice.length > 0 ? (
-                <Table striped bordered hover>
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>Budgivare</th>
-                      <th>Bud</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {isActive ? (
-                      slice.map((a, i) => (
-                        <tr key={uuidv4()}>
-                          <td>{i + 1}</td>
-                          <td>{a.Budgivare}</td>
-                          <td>{a.Summa}</td>
-                        </tr>
-                      ))
-                    ) : (
-                      <tr key={uuidv4()}>
-                        <td>{1}</td>
-                        <td>{highestBidder.Budgivare}</td>
-                        <td>{highestBidder.Summa}</td>
+        <>
+          <Row>
+            <Col md={6}>
+              <Card>
+                <Card.Body>
+                  <Card.Title>{auction.Titel}</Card.Title>
+                  <Card.Text>{auction.Beskrivning}</Card.Text>
+                  <Card.Text>
+                    Start Datum: {dateBuilder(auction.StartDatum)}
+                  </Card.Text>
+                  <Card.Text>
+                    Slut Datum: {dateBuilder(auction.SlutDatum)}
+                  </Card.Text>
+                  <Card.Text>Utropspris: {auction.Utropspris} kr</Card.Text>
+                  <Card.Text>Utropspris: {auction.SkapadAv}</Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
+            <Col md={6}>
+              <Row md={10} className="h80">
+                {slice.length > 0 ? (
+                  <Table striped bordered hover>
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Budgivare</th>
+                        <th>Bud</th>
                       </tr>
+                    </thead>
+                    <tbody>
+                      {isActive ? (
+                        slice.map((a, i) => (
+                          <tr key={uuidv4()}>
+                            <td>{i + 1}</td>
+                            <td>{a.Budgivare}</td>
+                            <td>{a.Summa}</td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr key={uuidv4()}>
+                          <td>{1}</td>
+                          <td>{highestBidder.Budgivare}</td>
+                          <td>{highestBidder.Summa}</td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </Table>
+                ) : (
+                  <>
+                    <h2>No Bids Found</h2>
+                    {isActive && (
+                      <Link
+                        to={`/auction/update/${params.id}`}
+                        className="btn btn-primary"
+                      >
+                        Uppdatera
+                      </Link>
                     )}
-                  </tbody>
-                </Table>
-              ) : (
-                <>
-                  <h2>No Bids Found</h2>
-                  {isActive && (
-                    <Link
-                      to={`/auction/update/${params.id}`}
-                      className="btn btn-primary"
+                    <Button
+                      onClick={handleDelete}
+                      variant="danger"
+                      className="my-2"
                     >
-                      Uppdatera
-                    </Link>
-                  )}
-                  <Button
-                    onClick={handleDelete}
-                    variant="danger"
-                    className="my-2"
-                  >
-                    Ta bort
-                  </Button>
-                </>
-              )}
+                      Ta bort
+                    </Button>
+                  </>
+                )}
+              </Row>
+              <Row md={2} className="h20">
+                <TableFooter
+                  range={range}
+                  slice={slice}
+                  setPage={setPage}
+                  page={page}
+                />
+              </Row>
+            </Col>
+          </Row>
+          {isActive && (
+            <Row>
+              <Col>
+                <BidForm startPrice={auction.Utropspris} id={params.id} />
+              </Col>
             </Row>
-            <Row md={2} className="h20">
-              <TableFooter
-                range={range}
-                slice={slice}
-                setPage={setPage}
-                page={page}
-              />
-            </Row>
-          </Col>
-        </Row>
+          )}
+        </>
       ) : (
         <h1>Laddar</h1>
       )}
