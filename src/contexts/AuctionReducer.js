@@ -31,17 +31,6 @@ const AuctionReducer = (state, action) => {
     default:
       return state;
   }
-    switch (action.type) {
-        case "filterAuctions": return{
-                ...state, auctions: action.payload
-            }
-
-        default : return state
-
-    }
-
-
-
 };
 
 export default AuctionReducer;
