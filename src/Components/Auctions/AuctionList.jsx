@@ -3,13 +3,14 @@ import AuctionItem from "./AuctionItem";
 import { Row, Col } from "react-bootstrap";
 import { v4 as uuidv4 } from "uuid";
 import AuctionContext from "../../contexts/AuctionContext";
-import { getAllActiveAuctions } from "../../contexts/AuctionAction";
+import { searchFilter } from "../../contexts/AuctionAction";
 const AuctionList = () => {
   const { auctions, dispatch } = useContext(AuctionContext);
   useEffect(() => {
     if (auctions.length < 1) {
       const getAuctions = async () => {
-        const response = await getAllActiveAuctions();
+        // const response = await getAllActiveAuctions();
+        const response = await searchFilter("", "active");
         dispatch({ type: "filterAuctions", payload: response });
       };
       getAuctions();
