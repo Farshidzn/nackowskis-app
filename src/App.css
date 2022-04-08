@@ -20,7 +20,7 @@ footer a {
     color: #111;
 }
 
-.mb-4{
+.visable{
    visibility: visible;
 }
 .footer-text{
@@ -39,7 +39,9 @@ footer a {
     min-height:20%;
     max-height:20%;
 }
-
+.vh20{
+    min-height:20vh;
+}
 .search-input{
 margin-left: 30px;
 margin-top:10px
