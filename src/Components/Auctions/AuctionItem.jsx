@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import {getBidForAuction} from "../../contexts/AuctionAction";
+import { getBidForAuction } from "../../contexts/AuctionAction";
 const AuctionItem = ({ auction }) => {
   const [highestBid, setHighestBid] = useState(0);
   useEffect(() => {
@@ -37,6 +36,9 @@ const AuctionItem = ({ auction }) => {
       <Card.Body>
         <Card.Title>{auction.Titel}</Card.Title>
         <Card.Text>{auction.Beskrivning}</Card.Text>
+        <Card.Text>
+          <span>Utropspris: {auction.Utropspris}</span>
+        </Card.Text>
         <Card.Text>
           {highestBid > 0 ? (
             <span>Högsta bud: {highestBid}</span>

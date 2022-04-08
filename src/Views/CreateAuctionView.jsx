@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
-import { Form, Button, InputGroup } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 const CreateAuctionsView = () => {
   const [formData, setFormData] = useState({
     Titel: "",
@@ -24,74 +24,11 @@ const CreateAuctionsView = () => {
     setFormData({ ...formData, [e.target.id]: parseInt(e.target.value) });
   };
   const onSubmitHandler = async (e) => {
-    e.preventDefault();
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-
-    console.log(formData);
-    const response = await api.post("Auktion/2460", formData);
-    
+    await api.post("Auktion/2460", formData);
   };
 
   return (
-    //<div><h1>Create auction view</h1></div>
     <>
-      {/* <form onSubmit={onSubmitHandler}>
-        <div className="newAuction">
-          <h3>Add a new auction</h3>
-          <div className="seller">
-            <label htmlFor="SkapadAv">Sold by:</label>
-            <br />
-            <input type="text" id="SkapadAv" onChange={onchange} />
-          </div>
-          <div className="title">
-            <label htmlFor="Title">Titel:</label>
-            <br />
-            <input type="text" id="Titel" onChange={onchange} />
-          </div>
-          <br />
-          <div className="description">
-            <label htmlFor="Beskrivning">Description:</label>
-            <br />
-            <input type="text" id="Beskrivning" onChange={onchange} />
-          </div>
-          <br />
-          <div className="startDate">
-            <label html for="StartDatum">
-              Start date:
-            </label>
-            <br />
-            <input type="date" id="StartDatum" onChange={onDateChanged} />
-          </div>
-          <br />
-          <div className="dueDate">
-            <label html for="dueDate">
-              End date:
-            </label>
-            <br />
-            <input type="date" id="SlutDatum" onChange={onDateChanged} />
-          </div>
-          <br />
-          <div className="acceptedPrice">
-            <label html for="acceptedPrice">
-              Starting price:
-            </label>
-            <br />
-            <input type="number" id="Utropspris" onChange={onPriceChange} />
-          </div>
-          <br />
-          <br />
-          <br />
-          <div className="createAuction">
-            <button className="createAuctionbtn" type="submit">
-              Add
-            </button>
-          </div>
-        </div>
-      </form> */}
       <Form onSubmit={onSubmitHandler}>
         <Form.Group className="mb-3">
           <Form.Label htmlFor="SkapadAv">Seller</Form.Label>
