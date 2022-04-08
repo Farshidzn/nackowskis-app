@@ -1,6 +1,8 @@
-import React from "react";
-import { Card } from "react-bootstrap";
+import React, { useContext } from "react";
+import { Card, Spinner } from "react-bootstrap";
+import AuctionContext from "../../contexts/AuctionContext";
 const AuctionDetail = ({ auction }) => {
+  const { current_auction } = useContext(AuctionContext);
   function msToTime(duration) {
     duration += 7200000;
     let milliseconds = Math.floor((duration % 1000) / 100),
@@ -47,16 +49,26 @@ const AuctionDetail = ({ auction }) => {
     return `${day} ${date} ${month} ${year} ${time}`;
   };
   return (
-    <Card>
-      <Card.Body>
-        <Card.Title>{auction.Titel}</Card.Title>
-        <Card.Text>{auction.Beskrivning}</Card.Text>
-        <Card.Text>Start Datum: {dateBuilder(auction.StartDatum)}</Card.Text>
-        <Card.Text>Slut Datum: {dateBuilder(auction.SlutDatum)}</Card.Text>
-        <Card.Text>Utropspris: {auction.Utropspris} kr</Card.Text>
-        <Card.Text>Utropspris: {auction.SkapadAv}</Card.Text>
-      </Card.Body>
-    </Card>
+    <>
+      {current_auction ? (
+        <Card>
+          <Card.Body>
+            <Card.Title>{current_auction.Titel}</Card.Title>
+            <Card.Text>{current_auction.Beskrivning}</Card.Text>
+            <Card.Text>
+              Start Datum: {dateBuilder(current_auction.StartDatum)}
+            </Card.Text>
+            <Card.Text>
+              Slut Datum: {dateBuilder(current_auction.SlutDatum)}
+            </Card.Text>
+            <Card.Text>Utropspris: {current_auction.Utropspris} kr</Card.Text>
+            <Card.Text>Utropspris: {current_auction.SkapadAv}</Card.Text>
+          </Card.Body>
+        </Card>
+      ) : (
+        <Spinner />
+      )}
+    </>
   );
 };
 

@@ -1,9 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { Row, Col, Table, Button } from "react-bootstrap";
-import { v4 as uuidv4 } from "uuid";
-import useTable from "../Hooks/useTable";
-import TableFooter from "../Components/Layout/TableFooter";
+import { Row, Col, Button, Spinner } from "react-bootstrap";
 import BidForm from "../Components/Bids/BidForm";
 import AuctionContext from "../contexts/AuctionContext";
 import {
@@ -12,54 +9,61 @@ import {
   getBidForAuction,
 } from "../contexts/AuctionAction";
 import AuctionDetail from "../Components/Auctions/AuctionDetail";
+import BidTable from "../Components/Bids/BidTable";
 const DetailsView = () => {
   const { bids, dispatch } = useContext(AuctionContext);
   const navigate = useNavigate();
-  const [page, setPage] = useState(1);
   const [isActive, setIsActive] = useState(false);
-  const [highestBidder, setHighestBidder] = useState({});
   const params = useParams();
   const [auction, setAuction] = useState({});
   const [loading, setLoading] = useState(true);
-  const { slice, range } = useTable(bids, page, 4);
   const auctionIsActive = (auction) => {
     return new Date(auction.SlutDatum) > new Date();
   };
   useEffect(() => {
     const getAuction = async () => {
       const response = await getAuctionById(params.id);
+      dispatch({
+        type: "set_current_auction",
+        payload: response,
+      });
       setAuction(response);
       setIsActive(auctionIsActive(response));
     };
     const getBids = async () => {
       const response = await getBidForAuction(params.id);
       dispatch({
-        type: "get_all_bids",
+        type: "set_bids_current",
         payload: response,
       });
-      //setBids(response);
-      if (response.length > 0) {
-        const highestBid = response.reduce(function (prev, current) {
-          return prev.Summa > current.Summa ? prev : current;
-        });
-        setHighestBidder(highestBid);
-      }
     };
     getAuction();
     getBids();
     setLoading(false);
-  }, [params.id, bids, dispatch]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const handleUpdate = () => {
+    dispatch({
+      type: "set_update_mode_true",
+    });
+  };
   const handleDelete = async () => {
-    await deletAuction(params.id);
     dispatch({
       type: "delete_auction",
-      payload: params.id,
+      payload: parseInt(params.id),
     });
+    await deletAuction(params.id);
     navigate("/");
+  };
+  const handleBack = () => {
+    dispatch({
+      type: "remove_current_auction",
+    });
   };
   return (
     <>
-      <Link to="/" className="btn btn-primary my-2">
+      <Link to="/" className="btn btn-primary my-2" onClick={handleBack}>
         Back
       </Link>
       {!loading ? (
@@ -70,40 +74,17 @@ const DetailsView = () => {
             </Col>
             <Col md={6}>
               <Row md={10} className="h80">
-                {slice.length > 0 ? (
-                  <Table striped bordered hover>
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>Budgivare</th>
-                        <th>Bud</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {isActive ? (
-                        slice.map((a, i) => (
-                          <tr key={uuidv4()}>
-                            <td>{i + 1}</td>
-                            <td>{a.Budgivare}</td>
-                            <td>{a.Summa}</td>
-                          </tr>
-                        ))
-                      ) : (
-                        <tr key={uuidv4()}>
-                          <td>{1}</td>
-                          <td>{highestBidder.Budgivare}</td>
-                          <td>{highestBidder.Summa}</td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </Table>
+                {bids.length > 0 ? (
+                  <BidTable />
                 ) : (
                   <>
                     <h2>No Bids Found</h2>
                     {isActive && (
                       <Link
-                        to={`/auction/update/${params.id}`}
+                        // to={`/auction/update/${params.id}`}
+                        to={`/upsert`}
                         className="btn btn-primary"
+                        onClick={handleUpdate}
                       >
                         Uppdatera
                       </Link>
@@ -118,14 +99,6 @@ const DetailsView = () => {
                   </>
                 )}
               </Row>
-              <Row md={2} className="h20">
-                <TableFooter
-                  range={range}
-                  slice={slice}
-                  setPage={setPage}
-                  page={page}
-                />
-              </Row>
             </Col>
           </Row>
           {isActive && (
@@ -137,7 +110,7 @@ const DetailsView = () => {
           )}
         </>
       ) : (
-        <h1>Laddar</h1>
+        <Spinner />
       )}
     </>
   );

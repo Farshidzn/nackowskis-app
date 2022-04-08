@@ -3,17 +3,18 @@ import AuctionItem from "./AuctionItem";
 import { Row, Col } from "react-bootstrap";
 import { v4 as uuidv4 } from "uuid";
 import AuctionContext from "../../contexts/AuctionContext";
-import {getAllActiveAuctions} from "../../contexts/AuctionAction"
+import { getAllActiveAuctions } from "../../contexts/AuctionAction";
 const AuctionList = () => {
   const { auctions, dispatch } = useContext(AuctionContext);
   useEffect(() => {
-    if(auctions.length < 1){
-        const getAuctions = async() => {
-            const response = await getAllActiveAuctions();
-            dispatch({type: "filterAuctions", payload: response})
-        }
-        getAuctions();
+    if (auctions.length < 1) {
+      const getAuctions = async () => {
+        const response = await getAllActiveAuctions();
+        dispatch({ type: "filterAuctions", payload: response });
+      };
+      getAuctions();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auctions]);
   return (
     <>

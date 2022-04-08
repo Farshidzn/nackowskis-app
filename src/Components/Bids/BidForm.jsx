@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-import axios from "axios";
 import { Form, Button, Col, Row, Alert, Toast } from "react-bootstrap";
 import AuctionContext from "../../contexts/AuctionContext";
 import { createBid } from "../../contexts/AuctionAction";
@@ -25,6 +24,7 @@ const BidForm = ({ id, startPrice }) => {
         ? highestBidder.Summa + 1
         : startPrice + 1
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bids]);
   const { Summa, Budgivare } = formData;
   const handleOnChange = (e) => {
@@ -33,38 +33,33 @@ const BidForm = ({ id, startPrice }) => {
   const resetState = () => {
     setFormData({ Summa: 0, Budgivare: "" });
   };
-  const sendMessage = (e) => {
-    e.preventDefault();
-    setTimeout(() => {
-      alert("Test");
-    }, 2000);
-  };
+
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     setBidStatus(false);
     const newBid = { ...formData, AuktionID: id };
-    const response = await createBid(id, newBid);
+    await createBid(id, newBid);
 
     dispatch({
       type: "create_bid",
-      payload: response.data,
+      payload: newBid,
     });
     resetState();
     setBidStatus(true);
     setPostComplete(true);
-    console.log(response.data);
   };
   return (
     <>
       {postComplete && (
-        <Toast className = "bid-toast"
+        <Toast
+          className="bid-toast"
           onClose={() => setPostComplete(false)}
           show={postComplete}
           delay={2000}
           autohide
         >
           <Alert variant="success">
-            <Alert.Heading>Bud lagt</Alert.Heading>           
+            <Alert.Heading>Bud lagt</Alert.Heading>
           </Alert>
         </Toast>
       )}
@@ -103,32 +98,14 @@ const BidForm = ({ id, startPrice }) => {
         </Form.Group>
         <Form.Group as={Row} className="mb-3">
           <Col sm={{ span: 10, offset: 2 }}>
-            <Button type="submit" disabled={bidStatus.value}>Lägg bud</Button>
+            <Button type="submit" disabled={bidStatus.value}>
+              Lägg bud
+            </Button>
           </Col>
         </Form.Group>
       </Form>
     </>
   );
 };
-
-// function AlertDismissibleExample() {
-//     const [show, setShow] = useState(true);
-
-//     if (show) {
-//       return (
-//         <Alert variant="danger" onClose={() => setShow(false)} dismissible>
-//           <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
-//           <p>
-//             Change this and that and try again. Duis mollis, est non commodo
-//             luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
-//             Cras mattis consectetur purus sit amet fermentum.
-//           </p>
-//         </Alert>
-//       );
-//     }
-//     return <Button onClick={() => setShow(true)}>Show Alert</Button>;
-//   }
-
-//   render(<AlertDismissibleExample />);
 
 export default BidForm;
