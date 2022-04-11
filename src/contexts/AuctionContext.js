@@ -9,6 +9,7 @@ export const AuctionProvider = ({ children }) => {
     current_auction: null,
     isUpdateMode: false,
     bids: [],
+    isAlert: false,
   };
 
   const [state, dispatch] = useReducer(AuctionReducer, initialState);

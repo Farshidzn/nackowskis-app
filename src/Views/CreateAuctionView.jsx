@@ -1,11 +1,12 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { Form, Button, Col, Row } from "react-bootstrap";
+import { Form, Button, Col, Row, Alert, Toast } from "react-bootstrap";
 import FormContainer from "../Components/Layout/FormContainer";
 import AuctionContext from "../contexts/AuctionContext";
 import { createAuction, updateAuction } from "../contexts/AuctionAction";
 const CreateAuctionsView = () => {
   const navigate = useNavigate();
+  const [postComplete, setPostComplete] = useState(false);
   const { current_auction, isUpdateMode, dispatch } =
     useContext(AuctionContext);
   const [formData, setFormData] = useState({
@@ -48,19 +49,26 @@ const CreateAuctionsView = () => {
         type: "create_auction",
         payload: formData,
       });
+      dispatch({
+        type: "set_alert",
+        payload: true,
+      });
       navigate("/");
+      
     }
+   
   };
 
   return (
     <>
+    
       <FormContainer>
         <Form onSubmit={onSubmitHandler}>
           <Form.Group className="mb-3">
             <Form.Label htmlFor="SkapadAv">Säljare</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Enter name"
+              placeholder="Ange ditt namn"
               id="SkapadAv"
               onChange={onchange}
               value={SkapadAv}
@@ -71,7 +79,7 @@ const CreateAuctionsView = () => {
             <Form.Label htmlFor="Title">Titel</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Title"
+              placeholder="Titel"
               id="Titel"
               onChange={onchange}
               value={Titel}
@@ -79,10 +87,10 @@ const CreateAuctionsView = () => {
             />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label htmlFor="Beskrivning">Description</Form.Label>
+            <Form.Label htmlFor="Beskrivning">Beskrivning</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Description"
+              placeholder="Beskrivning"
               id="Beskrivning"
               onChange={onchange}
               value={Beskrivning}
@@ -90,7 +98,7 @@ const CreateAuctionsView = () => {
             />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label htmlFor="Utropspris">Starting price:</Form.Label>
+            <Form.Label htmlFor="Utropspris">Startpris:</Form.Label>
             <Form.Control
               type="number"
               id="Utropspris"
@@ -101,7 +109,7 @@ const CreateAuctionsView = () => {
           </Form.Group>
           <Col>
             <Form.Group>
-              <Form.Label htmlFor="StartDatum">start date</Form.Label>
+              <Form.Label htmlFor="StartDatum">StartDatum</Form.Label>
               <Form.Control
                 type="date"
                 name="dob"
@@ -120,7 +128,7 @@ const CreateAuctionsView = () => {
           </Col>
           <Col>
             <Form.Group>
-              <Form.Label htmlFor="SlutDatum">End date</Form.Label>
+              <Form.Label htmlFor="SlutDatum">SlutDatum</Form.Label>
               <Form.Control
                 type="date"
                 name="dob"
