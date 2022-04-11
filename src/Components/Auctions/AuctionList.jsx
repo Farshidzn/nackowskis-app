@@ -47,8 +47,6 @@ const AuctionList = () => {
           <h1>Auktioner</h1>
         </Col>
       </Row>
-
-      <h1>Auktioner</h1>
       <Row>
         {auctions.length > 0 ? (
           auctions.map((a) => (
