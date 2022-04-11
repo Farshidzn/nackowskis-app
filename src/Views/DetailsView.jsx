@@ -65,7 +65,7 @@ const DetailsView = () => {
   return (
     <>
       <Link to="/" className="btn btn-primary my-2" onClick={handleBack}>
-        Back
+        Tillbaka
       </Link>
       {!loading ? (
         <>

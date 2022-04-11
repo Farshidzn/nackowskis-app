@@ -52,7 +52,7 @@ const AuctionItem = ({ auction }) => {
         to={`/auction/${auction.AuktionID}`}
         className="my-1 mx-2 btn btn-primary"
       >
-        Details
+        Detaljer
       </Link>
     </Card>
   );
