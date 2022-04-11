@@ -23,7 +23,6 @@ const BidTable = () => {
     if (current_auction) {
       setIsActive(auctionIsActive(current_auction));
     }
-    console.log(highestBidder)
   }, [bids, current_auction]);
   return (
     <>
@@ -53,14 +52,15 @@ const BidTable = () => {
           )}
         </tbody>
       </Table>
-      <Row md={2} className="h20">
+      {isActive &&  <Row md={2} className="h20">
         <TableFooter
           range={range}
           slice={slice}
           setPage={setPage}
           page={page}
         />
-      </Row>
+      </Row>}
+     
     </>
   );
 };
