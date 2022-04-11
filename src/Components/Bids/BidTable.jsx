@@ -38,7 +38,7 @@ const BidTable = () => {
           {isActive ? (
             slice.map((a, i) => (
               <tr key={uuidv4()}>
-                <td>{page > 1 ? i + 4 : i + 1}</td>
+                <td>{page > 1 ? i + 3 + page : i + page}</td>
                 <td>{a.Budgivare}</td>
                 <td>{a.Summa}</td>
               </tr>

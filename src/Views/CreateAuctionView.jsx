@@ -8,23 +8,25 @@ const CreateAuctionsView = () => {
   const navigate = useNavigate();
   const { current_auction, isUpdateMode, dispatch } =
     useContext(AuctionContext);
+    const [minEndDate, setMinEndDate] = useState();
   const [formData, setFormData] = useState({
     Titel: "",
     SkapadAv: "",
     Beskrivning: "",
     StartDatum: new Date().toISOString(),
-    SlutDatum: new Date().toISOString(),
+    SlutDatum: new Date(new Date().getTime()+(1*24*60*60*1000)).toISOString(),
     Gruppkod: 2460,
     Utropspris: 0,
   });
   const { Titel, SkapadAv, Beskrivning, Utropspris, StartDatum, SlutDatum } =
     formData;
   useEffect(() => {
+    const startDate = new Date(StartDatum);
+    const result = startDate.setDate(startDate.getDate() + 1)
+    setMinEndDate(new Date(result).toISOString())
     if (isUpdateMode && current_auction) {
       setFormData(current_auction);
-      dispatch({
-        type: "reset_update_mode",
-      });
+      
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -33,12 +35,20 @@ const CreateAuctionsView = () => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
   const onDateChanged = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value.toString() });
+    const today = new Date();
+    const input = new Date(e.target.value)
+    if(input >= today ){
+      setFormData({ ...formData, [e.target.id]: e.target.value.toString() });
+    }
+    
   };
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-    if (current_auction) {
+    if (isUpdateMode && current_auction) {
       await updateAuction(formData);
+      dispatch({
+        type: "reset_update_mode",
+      });
       dispatch({ type: "update_auction", payload: formData });
       navigate(`/auction/${current_auction.AuktionID}`);
     } else {
@@ -97,6 +107,7 @@ const CreateAuctionsView = () => {
               onChange={onchange}
               value={Utropspris}
               required
+              min={1}
             />
           </Form.Group>
           <Col>
@@ -131,7 +142,7 @@ const CreateAuctionsView = () => {
                   .toISOString()
                   .slice(0, 10)
                   .replace("T", " ")}
-                min={StartDatum}
+                min={minEndDate}
                 required
               />
             </Form.Group>
@@ -141,11 +152,11 @@ const CreateAuctionsView = () => {
           <Row className="d-flex justify-content-between align-items-center">
             <Col md={4} className="my1 mx-2">
               <Button variant="primary" type="submit">
-                {current_auction ? "Uppdatera" : "Skapa"}
+                {isUpdateMode ? "Uppdatera" : "Skapa"}
               </Button>
             </Col>
             <Col md={4} className="align-self-end">
-              {current_auction && (
+              {isUpdateMode && (
                 <Link
                   to={`/auction/${current_auction.AuktionID}`}
                   className="my-1 mx-2 btn btn-secondary"

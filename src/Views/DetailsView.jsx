@@ -23,6 +23,7 @@ const DetailsView = () => {
   useEffect(() => {
     const getAuction = async () => {
       const response = await getAuctionById(params.id);
+      
       dispatch({
         type: "set_current_auction",
         payload: response,
