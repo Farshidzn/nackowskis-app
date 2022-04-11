@@ -26,8 +26,7 @@ const CreateAuctionsView = () => {
     const result = startDate.setDate(startDate.getDate() + 1)
     setMinEndDate(new Date(result).toISOString())
     if (isUpdateMode && current_auction) {
-      setFormData(current_auction);
-      
+      setFormData(current_auction);     
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -38,9 +37,20 @@ const CreateAuctionsView = () => {
   const onDateChanged = (e) => {
     const today = new Date();
     const input = new Date(e.target.value)
-    if(input >= today ){
-      setFormData({ ...formData, [e.target.id]: e.target.value.toString() });
+    console.log(typeof(e.target.id))
+    switch(e.target.id){
+      case "StartDatum": 
+      if(input >= today && input <( new Date(SlutDatum)) ){
+        setFormData({ ...formData, [e.target.id]: e.target.value.toString() });
+      }
+      break;
+      case "SlutDatum":
+        if(input > (new Date(StartDatum))){
+          setFormData({ ...formData, [e.target.id]: e.target.value.toString() });
+        }
+        break;
     }
+   
     
   };
   const onSubmitHandler = async (e) => {

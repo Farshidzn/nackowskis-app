@@ -41,7 +41,7 @@ const DetailsView = () => {
     getAuction();
     getBids();
     setLoading(false);
-
+return () => {}
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const handleUpdate = () => {
