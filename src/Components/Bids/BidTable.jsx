@@ -14,7 +14,7 @@ const BidTable = () => {
     return new Date(auction.SlutDatum) > new Date();
   };
   useEffect(() => {
-    if (bids > 0) {
+    if (bids.length > 0) {
       const highestBid = bids.reduce(function (prev, current) {
         return prev.Summa > current.Summa ? prev : current;
       });
@@ -38,7 +38,7 @@ const BidTable = () => {
           {isActive ? (
             slice.map((a, i) => (
               <tr key={uuidv4()}>
-                <td>{page > 1 ? i + 4 : i + 1}</td>
+                <td>{page > 1 ? i + 3 + page : i + page}</td>
                 <td>{a.Budgivare}</td>
                 <td>{a.Summa}</td>
               </tr>
@@ -52,14 +52,15 @@ const BidTable = () => {
           )}
         </tbody>
       </Table>
-      <Row md={2} className="h20">
+      {isActive &&  <Row md={2} className="h20">
         <TableFooter
           range={range}
           slice={slice}
           setPage={setPage}
           page={page}
         />
-      </Row>
+      </Row>}
+     
     </>
   );
 };

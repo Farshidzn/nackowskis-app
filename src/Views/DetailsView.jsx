@@ -23,6 +23,7 @@ const DetailsView = () => {
   useEffect(() => {
     const getAuction = async () => {
       const response = await getAuctionById(params.id);
+      
       dispatch({
         type: "set_current_auction",
         payload: response,
@@ -64,7 +65,7 @@ const DetailsView = () => {
   return (
     <>
       <Link to="/" className="btn btn-primary my-2" onClick={handleBack}>
-        Back
+        Tillbaka
       </Link>
       {!loading ? (
         <>
@@ -78,10 +79,9 @@ const DetailsView = () => {
                   <BidTable />
                 ) : (
                   <>
-                    <h2>No Bids Found</h2>
+                    <h2>Inga aktuella bud</h2>
                     {isActive && (
                       <Link
-                        // to={`/auction/update/${params.id}`}
                         to={`/upsert`}
                         className="btn btn-primary"
                         onClick={handleUpdate}

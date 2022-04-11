@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Card, Spinner } from "react-bootstrap";
 import AuctionContext from "../../contexts/AuctionContext";
-const AuctionDetail = ({ auction }) => {
+const AuctionDetail = () => {
   const { current_auction } = useContext(AuctionContext);
   function msToTime(duration) {
     duration += 7200000;
