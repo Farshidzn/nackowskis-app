@@ -20,7 +20,7 @@ const AuctionList = () => {
   }, [auctions]);
   return (
     <>
-      <h1>Auctions</h1>
+      <h1>Auktioner</h1>
       <Row>
         {auctions.length > 0 ? (
           auctions.map((a) => (
@@ -29,7 +29,7 @@ const AuctionList = () => {
             </Col>
           ))
         ) : (
-          <h2>No Auctions found</h2>
+          <h2>Inga auktioner matchade din sökning</h2>
         )}
       </Row>
     </>
