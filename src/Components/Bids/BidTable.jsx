@@ -14,15 +14,19 @@ const BidTable = () => {
     return new Date(auction.SlutDatum) > new Date();
   };
   useEffect(() => {
-    if (bids > 0) {
+    console.log(bids)
+    if (bids.length > 0) {
+      console.log("test")
       const highestBid = bids.reduce(function (prev, current) {
         return prev.Summa > current.Summa ? prev : current;
       });
       setHighestBidder(highestBid);
     }
+    console.log("useeffect hit")
     if (current_auction) {
       setIsActive(auctionIsActive(current_auction));
     }
+    console.log(highestBidder)
   }, [bids, current_auction]);
   return (
     <>
