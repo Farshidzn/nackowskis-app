@@ -82,7 +82,6 @@ const DetailsView = () => {
                     <h2>No Bids Found</h2>
                     {isActive && (
                       <Link
-                        // to={`/auction/update/${params.id}`}
                         to={`/upsert`}
                         className="btn btn-primary"
                         onClick={handleUpdate}
