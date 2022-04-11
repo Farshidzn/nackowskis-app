@@ -77,6 +77,12 @@ const AuctionReducer = (state, action) => {
         bids: action.payload,
       };
 
+      case "set_alert":
+        return {
+          ...state,
+          isAlert: action.payload,
+        }
+
     default:
       return state;
   }
