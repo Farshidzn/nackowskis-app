@@ -79,7 +79,7 @@ const DetailsView = () => {
                   <BidTable />
                 ) : (
                   <>
-                    <h2>No Bids Found</h2>
+                    <h2>Inga aktuella bud</h2>
                     {isActive && (
                       <Link
                         // to={`/auction/update/${params.id}`}

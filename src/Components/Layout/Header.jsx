@@ -19,11 +19,11 @@ const header = () => {
             <Nav>
               <LinkContainer to="/">
                 <Nav.Link>
-                  <strong>Home</strong>
+                  <strong>Hem</strong>
                 </Nav.Link>
               </LinkContainer>
               <LinkContainer to="/upsert">
-                <Nav.Link>Create Auction</Nav.Link>
+                <Nav.Link>Skapa auktion</Nav.Link>
               </LinkContainer>
             </Nav>
           </Navbar.Collapse>
