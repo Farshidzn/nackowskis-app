@@ -5,7 +5,7 @@ import { createBid } from "../../contexts/AuctionAction";
 const BidForm = ({ id, startPrice }) => {
   const { bids, dispatch } = useContext(AuctionContext);
   const [postComplete, setPostComplete] = useState(false);
-  const [bidStatus, setBidStatus] = useState(true);
+  const [bidStatus, setBidStatus] = useState(false);
   const [formData, setFormData] = useState({
     Summa: 0,
     Budgivare: "",
@@ -20,9 +20,9 @@ const BidForm = ({ id, startPrice }) => {
       setHighestBidder(highestBidder);
     }
     setMinBid(
-      highestBidder.Summa > startPrice
+      parseInt(highestBidder.Summa > startPrice
         ? highestBidder.Summa + 1
-        : startPrice + 1
+        : startPrice + 1)
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bids]);
@@ -36,8 +36,9 @@ const BidForm = ({ id, startPrice }) => {
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
-    setBidStatus(false);
+    setBidStatus(true);
     const newBid = { ...formData, AuktionID: id };
+    console.log(newBid)
     await createBid(id, newBid);
 
     dispatch({
@@ -45,7 +46,7 @@ const BidForm = ({ id, startPrice }) => {
       payload: newBid,
     });
     resetState();
-    setBidStatus(true);
+    setBidStatus(false);
     setPostComplete(true);
   };
   return (
@@ -98,9 +99,9 @@ const BidForm = ({ id, startPrice }) => {
         </Form.Group>
         <Form.Group as={Row} className="mb-3">
           <Col sm={{ span: 10, offset: 2 }}>
-            <Button type="submit" disabled={true}>
+            <button className="btn btn-primary" type="submit" disabled={bidStatus}>
               Lägg bud
-            </Button>
+            </button>
           </Col>
         </Form.Group>
       </Form>

@@ -7,6 +7,7 @@ import { searchFilter } from "../../contexts/AuctionAction";
 const AuctionList = () => {
   const { auctions, dispatch } = useContext(AuctionContext);
   useEffect(() => {
+    dispatch({type:"remove_current_auction"});
     if (auctions.length < 1) {
       const getAuctions = async () => {
         // const response = await getAllActiveAuctions();

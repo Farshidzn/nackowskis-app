@@ -62,7 +62,7 @@ const AuctionDetail = ({ auction }) => {
               Slut Datum: {dateBuilder(current_auction.SlutDatum)}
             </Card.Text>
             <Card.Text>Utropspris: {current_auction.Utropspris} kr</Card.Text>
-            <Card.Text>Utropspris: {current_auction.SkapadAv}</Card.Text>
+            <Card.Text>Skapad Av: {current_auction.SkapadAv}</Card.Text>
           </Card.Body>
         </Card>
       ) : (
