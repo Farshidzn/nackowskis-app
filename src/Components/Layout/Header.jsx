@@ -30,10 +30,12 @@ const Header = () => {
                   <strong>Hem</strong>
                 </Nav.Link>
               </LinkContainer>
-              <LinkContainer to="/upsert">
-                <Nav.Link>Skapa auktion</Nav.Link>
-              </LinkContainer>
+             
               {user ? (
+                 <>
+                 <LinkContainer to="/upsert">
+                 <Nav.Link>Skapa auktion</Nav.Link>
+               </LinkContainer>
                 <NavDropdown title={user.name} id="username">
                   <LinkContainer to="/profile">
                     <NavDropdown.Item>Min Profil</NavDropdown.Item>
@@ -42,6 +44,7 @@ const Header = () => {
                     Logout
                   </NavDropdown.Item>
                 </NavDropdown>
+                </>
               ) : (
                 <LinkContainer to="/login">
                   <Nav.Link>
