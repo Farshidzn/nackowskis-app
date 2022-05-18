@@ -19,7 +19,7 @@ const AuctionList = () => {
       getAuctions();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [auctions, isAlert]);
+  }, []);
   return (
     <>
       <Row>

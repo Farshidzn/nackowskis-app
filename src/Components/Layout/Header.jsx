@@ -1,7 +1,15 @@
-import React from "react";
-import { Navbar, Nav, Container } from "react-bootstrap";
+import React, { useContext } from "react";
+import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
-const header = () => {
+import { FaUserAlt } from "react-icons/fa";
+import AuthContext from "../../contexts/Auth/AuthContext";
+import { logout } from "../../contexts/Auth/AuthActions";
+
+const Header = () => {
+  const { user, dispatch } = useContext(AuthContext);
+  const logoutHandler = () => {
+    logout(dispatch);
+  };
   return (
     <>
       <Navbar bg="dark" variant="dark" expand="lg">
@@ -25,6 +33,22 @@ const header = () => {
               <LinkContainer to="/upsert">
                 <Nav.Link>Skapa auktion</Nav.Link>
               </LinkContainer>
+              {user ? (
+                <NavDropdown title={user.name} id="username">
+                  <LinkContainer to="/profile">
+                    <NavDropdown.Item>Min Profil</NavDropdown.Item>
+                  </LinkContainer>
+                  <NavDropdown.Item onClick={logoutHandler}>
+                    Logout
+                  </NavDropdown.Item>
+                </NavDropdown>
+              ) : (
+                <LinkContainer to="/login">
+                  <Nav.Link>
+                    Sign In <FaUserAlt />
+                  </Nav.Link>
+                </LinkContainer>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>
@@ -33,4 +57,4 @@ const header = () => {
   );
 };
 
-export default header;
+export default Header;
